@@ -1,4 +1,4 @@
-# @ram/react-modal
+# ram-react-modal
 
 A flexible, context-based React modal component built with TypeScript, React Hooks, and Tailwind CSS, featuring a unique, scale-up animation originating from the triggering element.
 
@@ -25,10 +25,10 @@ This package requires the following peer dependencies to be installed in your pr
 
 ```bash
 # Using npm
-npm install @ram/react-modal
+npm install ram-react-modal
 
 # Using yarn
-yarn add @ram/react-modal
+yarn add ram-react-modal
 ```
 
 3. Ensure your Tailwind CSS configuration includes the following in your `tailwind.config.js`:
@@ -38,7 +38,7 @@ module.exports = {
   // ...
   content: [
     // ...
-    './node_modules/@ram/react-modal/dist/**/*.js',
+    './node_modules/ram-react-modal/dist/**/*.js',
   ],
   // ...
 };
@@ -50,7 +50,7 @@ To use the modal system, you must wrap your application or a section of your app
 
 ```tsx
 import React from 'react';
-import { ModalProvider } from '@ram/react-modal';
+import { ModalProvider } from 'ram-react-modal';
 
 const App = () => (
   <ModalProvider>
@@ -69,7 +69,7 @@ The primary way to interact with the modal is through the `useModalContext` hook
 In any component nested under `ModalProvider`:
 
 ```tsx
-import { useModalContext } from '@ram/react-modal';
+import { useModalContext } from 'ram-react-modal';
 import React, { useRef } from 'react';
 
 const MyComponent = () => {

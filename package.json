@@ -1,6 +1,6 @@
 {
-  "name": "@ram/react-modal",
-  "version": "1.0.0",
+  "name": "ram-react-modal",
+  "version": "1.0.1",
   "description": "A flexible, context-based React modal component built with TypeScript, React Hooks, and Tailwind CSS, featuring a unique, scale-up animation originating from the triggering element.",
   "main": "dist/index.js",
   "module": "dist/index.js",
