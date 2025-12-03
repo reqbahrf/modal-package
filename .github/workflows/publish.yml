@@ -6,6 +6,7 @@ on:
     paths:
       - 'package.json'
       - 'src/**'
+      - '.github/workflows/publish.yml'
 permissions:
   id-token: write
   contents: read
