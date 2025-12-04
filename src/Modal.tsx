@@ -12,24 +12,21 @@ const Modal = ({
 }: ModalProps) => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
-  let sizeClass = '';
-  switch (size) {
-    case 'sm':
-      sizeClass = 'max-w-[50vw] max-h-[30vh]';
-      break;
-    case 'md':
-      sizeClass = 'max-w-[70vw] max-h-[50vh]';
-      break;
-    case 'full':
-      sizeClass = 'min-w-full max-w-full min-h-full max-h-full';
-      break;
-    case 'responsive':
-      sizeClass =
-        'w-full h-full max-w-full max-h-full md:max-w-[50vw] md:max-h-[90vh]';
-      break;
-    default:
-      break;
-  }
+  const getSizeClass = (size: ModalProps['size']): string => {
+    switch (size) {
+      case 'sm':
+        return 'ram-modal-size-sm';
+      case 'md':
+        return 'ram-modal-size-md';
+      case 'full':
+        return 'ram-modal-size-full';
+      case 'responsive':
+        return 'ram-modal-size-responsive';
+      default:
+        return 'ram-modal-size-md'; // Default to md if size is undefined or unhandled
+    }
+  };
+  const sizeClass = getSizeClass(size);
 
   useEffect(() => {
     if (modalRef.current) {
@@ -70,29 +67,25 @@ const Modal = ({
   return (
     <div
       ref={modalRef}
-      className={`fixed inset-0 z-50 flex items-center justify-center ${
-        isAnimationComplete ? 'bg-black bg-opacity-50' : 'bg-transparent'
+      className={`ram-modal-overlay ${
+        isAnimationComplete ? 'animationCompleted' : 'animationNotComplete'
       }`}
     >
-      <div
-        className={`relative ${sizeClass} overflow-y-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl`}
-      >
+      <div className={`ram-modal-content ${sizeClass}`}>
         <div
-          className={`sticky top-0 flex justify-between items-center p-4 ${
+          className={`ram-modal-header ${
             headerColor || 'bg-white dark:bg-gray-800'
           }`}
         >
-          <h2 className='text-2xl text-center font-bold text-gray-700 dark:text-white'>
-            {title}
-          </h2>
+          <h2 className='ram-modal-title'>{title}</h2>
           <button
             onClick={onClose}
-            className='text-2xl right-90 text-gray-600 dark:text-gray-400'
+            className='ram-modal-close-button'
           >
             &times;
           </button>
         </div>
-        <div className='flex flex-col gap-4 mt-4 p-6'>{children}</div>
+        <div className='ram-modal-body'>{children}</div>
       </div>
     </div>
   );
