@@ -46,7 +46,7 @@
   }
 
   .ram-animationCompleted {
-    @apply bg-black bg-opacity-50;
+    @apply bg-black opacity-50;
   }
   .ram-animationNotComplete {
     @apply bg-transparent;
