@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useCallback, ReactElement } from 'react';
 import Modal from './Modal';
-import type { OpenModalProps, ModalSize } from './types/modal';
+import type { OpenModalProps, ModalSize } from './types';
 
 interface UseModalReturn {
   modal: ReactElement | null;

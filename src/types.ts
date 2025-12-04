@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 export type ModalSize = 'sm' | 'md' | 'full' | 'responsive' | 'md-f-h';
 export interface ModalProps<T = any> {

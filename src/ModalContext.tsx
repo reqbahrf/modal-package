@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useContext } from 'react';
 import useModal from './useModal';
-import type { OpenModalProps } from './types/modal';
+import type { OpenModalProps } from './types';
 
 interface ModalContextType {
   openModal: (props: OpenModalProps) => void;

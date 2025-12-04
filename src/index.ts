@@ -1,4 +1,4 @@
 export { default as Modal } from './Modal';
 export { default as useModal } from './useModal';
 export { ModalProvider, useModalContext } from './ModalContext';
-export type * from './types/modal.d.ts';
+export type * from './types';
