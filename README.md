@@ -33,7 +33,13 @@ yarn add ram-react-modal
 
 3. **Configure Tailwind and Styles**
 
-The essential positioning and base styles are automatically imported when you include the `ModalProvider`. However, if you utilize props that accept dynamic Tailwind classes (e.g., `headerColor`), you must configure your consuming project's `tailwind.config.js` to scan the library's source files:
+To ensure the modal's base styles and Tailwind directives are applied correctly, you must import the package's CSS file into your main stylesheet (e.g., `globals.css`):
+
+```css
+@import 'ram-react-modal/src/ModalBase.css';
+```
+
+Additionally, if you utilize props that accept dynamic Tailwind classes (e.g., `headerColor`), you must configure your consuming project's `tailwind.config.js` to scan the library's source files:
 
 ```js
 module.exports = {
