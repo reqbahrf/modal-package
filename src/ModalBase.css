@@ -1,5 +1,4 @@
 @layer components {
-  /* Overlay - Always full screen, fixed, and high z-index */
   .ram-modal-overlay {
     @apply fixed inset-0 z-50 flex items-center justify-center;
   }
@@ -11,18 +10,18 @@
 
   /* Size Variants */
   .ram-modal-size-sm {
-    max-width: 50vw;
-    max-height: 30vh;
+    max-width: 50dvw;
+    max-height: 30dvh;
   }
   .ram-modal-size-md {
-    max-width: 70vw;
-    max-height: 50vh;
+    max-width: 70dvw;
+    max-height: 50dvh;
   }
   .ram-modal-size-full {
     @apply min-w-full max-w-full min-h-full max-h-full;
   }
   .ram-modal-size-responsive {
-    @apply w-full h-full max-w-full max-h-full md:max-w-[50vw] md:max-h-[90vh];
+    @apply w-full h-full max-w-full max-h-full md:max-w-[50dvw] md:max-h-[90dvh];
   }
 
   /* Header */
