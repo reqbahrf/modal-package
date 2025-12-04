@@ -1,5 +1,6 @@
 'use client';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import useModal from './useModal';
 import type { OpenModalProps } from './types';
 
@@ -14,11 +15,16 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { modal, openModal, closeModal } = useModal();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
-      {modal}
+      {mounted && modal ? createPortal(modal, document.body) : null}
     </ModalContext.Provider>
   );
 };
