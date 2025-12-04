@@ -31,7 +31,27 @@ npm install ram-react-modal
 yarn add ram-react-modal
 ```
 
-3. Ensure your Tailwind CSS configuration includes the following in your `tailwind.config.js`:
+3. **Import Base Styles**
+
+To ensure proper styling, particularly for positioning and sizing, you must import the base CSS file.
+
+Option A (Recommended): Import in your application's entry file (e.g., `_app.tsx`, `main.jsx`):
+
+```tsx
+import 'ram-react-modal/src/ModalBase.css';
+// ...
+```
+
+Option B: Import using `@import` in your main CSS file (e.g., `app.css` or `global.css`):
+
+```css
+/* Must be placed after Tailwind directives */
+@import 'ram-react-modal/src/ModalBase.css';
+```
+
+4. **Configure Tailwind Scanning (Optional)**
+
+If you utilize props that accept dynamic Tailwind classes (e.g., `headerColor`), you must configure your `tailwind.config.js` to scan the library's source files:
 
 ```js
 module.exports = {
