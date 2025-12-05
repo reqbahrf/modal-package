@@ -6,8 +6,6 @@ import type { OpenModalProps } from './types';
 
 interface ModalContextType {
   openModal: (props: OpenModalProps) => void;
-  // closeModal now accepts an optional ID to close a specific modal,
-  // defaulting to closing the topmost modal if no ID is provided.
   closeModal: (id?: string) => void;
 }
 
