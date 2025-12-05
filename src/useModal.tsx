@@ -1,37 +1,36 @@
+// src/useModal.tsx
 'use client';
-import { useEffect, useRef, useState, useCallback, ReactElement } from 'react';
+import { useCallback, useMemo, useState, useRef } from 'react';
 import Modal from './Modal';
+import ConfirmationModal from './ConfirmationModal';
 import type { OpenModalProps, ModalInstance, NoticeType } from './types';
 
-let nextId = 1;
-const generateId = () => {
-  return String(nextId++);
+const generateId = (): string => {
+  if (typeof crypto !== 'undefined' && (crypto as any).randomUUID) {
+    try {
+      return (crypto as any).randomUUID();
+    } catch {}
+  }
+  // fallback:
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
 };
 
-interface UseModalReturn {
-  modalStack: ReactElement[];
-  openModal: (props: OpenModalProps) => void;
-  closeModal: (id?: string) => void;
-}
-
-const useModal = (): UseModalReturn => {
+const useModal = () => {
   const [modalStack, setModalStack] = useState<ModalInstance[]>([]);
+  const pendingConfirmationIdsRef = useRef<Set<string>>(new Set());
 
+  // Force-close helper used by confirmation flow
   const _forceCloseModal = useCallback((id: string) => {
-    setModalStack((prevStack) => {
-      if (prevStack.length === 0) return prevStack;
-
-      const instanceToClose = prevStack.find((m) => m.closeId === id);
+    setModalStack((prev) => {
+      const instanceToClose = prev.find((m) => m.closeId === id);
       if (instanceToClose?.onCloseCallback) {
         instanceToClose.onCloseCallback();
       }
-      return prevStack.filter((m) => m.closeId !== id);
+      return prev.filter((m) => m.closeId !== id);
     });
   }, []);
 
-  const openModalRef = useRef<((props: OpenModalProps) => void) | null>(null);
-  const closeModalRef = useRef<((id?: string) => void) | null>(null);
-
+  // create confirmation modal (opens a tiny modal asking user to confirm)
   const createConfirmationModal = useCallback(
     (
       originalModalId: string,
@@ -39,153 +38,131 @@ const useModal = (): UseModalReturn => {
       noticeType: NoticeType,
       textContent: string
     ) => {
-      const getColors = (type: NoticeType) => {
-        switch (type) {
-          case 'warn':
-            return 'ram-color-header-warn';
-          case 'notify':
-          default:
-            return 'ram-color-header-notify';
-        }
-      };
+      const headerClass =
+        noticeType === 'warn'
+          ? 'ram-color-header-warn'
+          : 'ram-color-header-notify';
 
-      const header = getColors(noticeType);
       const handleConfirm = () => {
-        if (closeModalRef.current) {
-          closeModalRef.current();
-        }
+        pendingConfirmationIdsRef.current.delete(originalModalId);
+        setModalStack((prev) => {
+          const newPrev = prev.slice(0, -1);
+          return newPrev;
+        });
         _forceCloseModal(originalModalId);
       };
 
       const handleCancel = () => {
-        if (closeModalRef.current) {
-          closeModalRef.current();
-        }
+        pendingConfirmationIdsRef.current.delete(originalModalId);
+        setModalStack((prev) => prev.slice(0, -1));
       };
 
-      const ConfirmationContent = (
-        <div className='ram-confirmation-content-wrapper'>
-          <p className='ram-confirmation-text'>{textContent}</p>
-          <div className='ram-confirmation-actions'>
-            <button onClick={handleCancel}>Cancel</button>
-            <button
-              onClick={handleConfirm}
-              className={`ram-confirmation-button-base ${header}`}
-            >
-              Confirm Close
-            </button>
-          </div>
-        </div>
+      const confirmationContent = (
+        <ConfirmationModal
+          text={textContent}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+          headerClass={headerClass}
+        />
       );
 
-      if (openModalRef.current) {
-        openModalRef.current({
-          content: ConfirmationContent,
-          title: 'Confirm Action',
-          size: 'sm',
-          headerColor: header,
-          bodyColor: originalBgColor,
-        });
-      }
+      const newId = generateId();
+      const newModalInstance: ModalInstance = {
+        id: newId,
+        content: confirmationContent,
+        title: 'Confirm Action',
+        headerColor: headerClass,
+        bodyColor: originalBgColor,
+        size: 'sm',
+        closeId: newId,
+      };
+
+      return newModalInstance;
     },
     [_forceCloseModal]
   );
+
   const closeModal = useCallback(
     (id?: string) => {
-      let instanceToClose: ModalInstance | undefined;
-      let closeId: string | undefined;
-
       setModalStack((prevStack) => {
         if (prevStack.length === 0) return prevStack;
-
-        closeId = id || prevStack[prevStack.length - 1].closeId;
-        instanceToClose = prevStack.find((m) => m.closeId === closeId);
-
+        const closeId = id || prevStack[prevStack.length - 1].closeId;
+        const instanceToClose = prevStack.find((m) => m.closeId === closeId);
         if (!instanceToClose) return prevStack;
 
         if (instanceToClose.onBeforeClosing) {
+          const top = prevStack[prevStack.length - 1];
+          const confirmationAlreadyTop = top && top.title === 'Confirm Action';
+          const pending = pendingConfirmationIdsRef.current.has(closeId);
+
+          if (!confirmationAlreadyTop && !pending) {
+            const newConfirmationInstance = createConfirmationModal(
+              closeId,
+              instanceToClose.bodyColor || '',
+              instanceToClose.onBeforeClosing.noticeType,
+              instanceToClose.onBeforeClosing.textContent
+            );
+            return [...prevStack, newConfirmationInstance];
+          }
           return prevStack;
         }
+
         if (instanceToClose.onCloseCallback) {
           instanceToClose.onCloseCallback();
         }
 
         return prevStack.filter((m) => m.closeId !== closeId);
       });
-
-      if (instanceToClose?.onBeforeClosing && closeId) {
-        createConfirmationModal(
-          closeId,
-          instanceToClose.bodyColor,
-          instanceToClose.onBeforeClosing.noticeType,
-          instanceToClose.onBeforeClosing.textContent
-        );
-      }
     },
     [createConfirmationModal]
   );
 
-  const openModal = useCallback(
-    ({
-      content,
-      size,
-      title,
-      headerColor,
-      bodyColor,
-      onClose,
-      triggerRef,
-      onBeforeClosing,
-    }: OpenModalProps) => {
-      const newId = generateId();
+  const openModal = useCallback((props: OpenModalProps) => {
+    const newId = generateId();
+    const newModalInstance: ModalInstance = {
+      id: newId,
+      content: props.content,
+      title: props.title,
+      triggerRef: props.triggerRef,
+      headerColor: props.headerColor,
+      bodyColor: props.bodyColor,
+      size: props.size || 'md',
+      closeId: newId,
+      onCloseCallback: props.onClose ? () => props.onClose() : undefined,
+      onBeforeClosing: props.onBeforeClosing || null,
+      disableBackdropClose: props.disableBackdropClose,
+      disableEscapeClose: props.disableEscapeClose,
+    };
 
-      const newModalInstance: ModalInstance = {
-        id: newId,
-        content: content,
-        title: title,
-        triggerRef: triggerRef,
-        headerColor: headerColor || '',
-        bodyColor: bodyColor || '',
-        size: size || 'md',
-        closeId: newId,
-        onCloseCallback: () => {
-          if (onClose) {
-            onClose();
-          }
-        },
-        onBeforeClosing: onBeforeClosing,
-      };
+    setModalStack((prev) => [...prev, newModalInstance]);
+  }, []);
 
-      setModalStack((prevStack) => [...prevStack, newModalInstance]);
-    },
-    []
-  );
+  // Memoize rendered modals to avoid re-creating elements every render
+  const renderedModals = useMemo(() => {
+    return modalStack.map((instance, index) => {
+      const isTopModal = index === modalStack.length - 1;
+      const zIndex = 100 + index * 10;
 
-  useEffect(() => {
-    openModalRef.current = openModal;
-    closeModalRef.current = closeModal;
-  }, [openModal, closeModal]);
-
-  const renderedModals = modalStack.map((instance, index) => {
-    const isTopModal = index === modalStack.length - 1;
-    const zIndex = 100 + index * 10;
-
-    return (
-      <Modal
-        key={instance.id}
-        id={instance.id}
-        size={instance.size}
-        title={instance.title}
-        headerColor={instance.headerColor}
-        bodyColor={instance.bodyColor}
-        onClose={closeModal}
-        triggerRef={instance.triggerRef}
-        isTopModal={isTopModal}
-        style={{ zIndex }}
-      >
-        {instance.content}
-      </Modal>
-    );
-  });
+      return (
+        <Modal
+          key={instance.closeId}
+          id={instance.closeId}
+          size={instance.size}
+          title={instance.title}
+          headerColor={instance.headerColor}
+          bodyColor={instance.bodyColor}
+          onClose={closeModal}
+          triggerRef={instance.triggerRef}
+          isTopModal={isTopModal}
+          disableBackdropClose={instance.disableBackdropClose}
+          disableEscapeClose={instance.disableEscapeClose}
+          style={{ zIndex }}
+        >
+          {instance.content}
+        </Modal>
+      );
+    });
+  }, [modalStack, closeModal]);
 
   return { modalStack: renderedModals, openModal, closeModal };
 };
