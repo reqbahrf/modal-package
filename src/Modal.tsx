@@ -73,17 +73,23 @@ const Modal = ({
   return (
     <div
       ref={modalRef}
-      // Apply stacking style (z-index) and conditional backdrop class
       style={style}
-      className={`ram-modal-overlay ${
-        isAnimationComplete
-          ? isTopModal
-            ? 'ram-active-backdrop'
-            : 'ram-inactive-backdrop'
-          : 'ram-animationNotComplete'
-      }`}
+      className='ram-modal-overlay'
     >
-      <div className={`ram-modal-content ${sizeClass}`}>
+      <div
+        className={`ram-modal-backdrop ${
+          isAnimationComplete
+            ? isTopModal
+              ? 'ram-active-backdrop'
+              : 'ram-inactive-backdrop'
+            : 'ram-animationNotComplete'
+        }`}
+      />
+      <div
+        className={`ram-modal-content ${sizeClass} ${
+          bodyColor || 'bg-gray-800 text-white'
+        }`}
+      >
         <div
           className={`ram-modal-header ${
             headerColor || 'bg-blue-500 text-white'
@@ -105,11 +111,7 @@ const Modal = ({
             </svg>
           </button>
         </div>
-        <div
-          className={`ram-modal-body ${bodyColor || 'bg-gray-800 text-white'}`}
-        >
-          {children}
-        </div>
+        <div className={`ram-modal-body`}>{children}</div>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@
 
   /* Base Modal Content */
   .ram-modal-content {
-    @apply relative overflow-y-auto rounded-lg shadow-xl;
+    @apply relative z-20 overflow-y-auto rounded-lg shadow-xl;
   }
 
   /* Size Variants */
@@ -46,7 +46,12 @@
 
   /* Body Content Wrapper */
   .ram-modal-body {
-    @apply flex flex-col gap-4 mt-4 p-6;
+    @apply flex flex-col gap-4 mt-4 p-6 min-w-full min-h-full;
+  }
+
+  /* Backdrop Layer */
+  .ram-modal-backdrop {
+    @apply absolute inset-0 z-10; /* dedicated backdrop layer */
   }
 
   /* Active Backdrop (only for the topmost modal) */
