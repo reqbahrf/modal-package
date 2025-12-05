@@ -80,7 +80,7 @@ const useModal = (): UseModalReturn => {
 
       if (openModalRef.current) {
         openModalRef.current({
-          children: ConfirmationContent,
+          content: ConfirmationContent,
           title: 'Confirm Action',
           size: 'sm',
           headerColor: header,
@@ -127,7 +127,7 @@ const useModal = (): UseModalReturn => {
 
   const openModal = useCallback(
     ({
-      children,
+      content,
       size,
       title,
       headerColor,
@@ -140,7 +140,7 @@ const useModal = (): UseModalReturn => {
 
       const newModalInstance: ModalInstance = {
         id: newId,
-        children: children,
+        content: content,
         title: title,
         triggerRef: triggerRef,
         headerColor: headerColor || '',
@@ -182,7 +182,7 @@ const useModal = (): UseModalReturn => {
         isTopModal={isTopModal}
         style={{ zIndex }}
       >
-        {instance.children}
+        {instance.content}
       </Modal>
     );
   });

@@ -22,7 +22,11 @@ export interface ModalProps<T = any> {
 }
 
 export interface OpenModalProps
-  extends Omit<ModalProps, 'onClose' | 'id' | 'isTopModal' | 'style'> {
+  extends Omit<
+    ModalProps,
+    'onClose' | 'id' | 'isTopModal' | 'style' | 'children'
+  > {
+  content: ReactElement;
   onClose?: () => void;
   onBeforeClosing?: OnBeforeClosingProps;
 }
@@ -30,7 +34,8 @@ export interface OpenModalProps
 // Defines a modal currently in the stack
 // We omit isTopModal and style because they are calculated during rendering.
 export interface ModalInstance
-  extends Omit<ModalProps, 'onClose' | 'isTopModal' | 'style'> {
+  extends Omit<ModalProps, 'onClose' | 'isTopModal' | 'style' | 'children'> {
+  content: ReactElement;
   onCloseCallback: (() => void) | undefined;
   closeId: string; // The ID to call the context's closeModal with
   onBeforeClosing?: OnBeforeClosingProps;
