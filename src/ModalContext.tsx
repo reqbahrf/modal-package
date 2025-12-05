@@ -6,7 +6,9 @@ import type { OpenModalProps } from './types';
 
 interface ModalContextType {
   openModal: (props: OpenModalProps) => void;
-  closeModal: () => void;
+  // closeModal now accepts an optional ID to close a specific modal,
+  // defaulting to closing the topmost modal if no ID is provided.
+  closeModal: (id?: string) => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -14,7 +16,8 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { modal, openModal, closeModal } = useModal();
+  // modalStack is now an array of ReactElements
+  const { modalStack, openModal, closeModal } = useModal();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -24,7 +27,10 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
-      {mounted && modal ? createPortal(modal, document.body) : null}
+      {mounted &&
+        modalStack.map((modalElement) =>
+          createPortal(modalElement, document.body)
+        )}
     </ModalContext.Provider>
   );
 };
