@@ -6,7 +6,8 @@ A flexible, context-based React modal component built with TypeScript and React 
 
 - **Context-Based Management:** Easily open and close modals from any component using the `useModalContext` hook.
 - **Animated Entry:** Smooth scale-up animation originating from the button that triggered the modal (if provided).
-- **Customizable Sizes:** Supports `sm`, `md` (default), `full`, `responsive`, and the unreleased `md-f-h` size.
+- **Customizable Sizes:** Supports `sm`, `md` (default), `full`, `responsive`, and `md-f-h` size.
+- **Closing Control:** Disable closing the modal via the backdrop click or the Escape key press.
 - **Customizable Appearance:** Configure the background color for both the header (`headerColor`) and the body (`bodyColor`) using string class names (e.g., 'bg-red-500').
 - **Prop-Driven Content:** Pass JSX content directly to the `openModal` function.
 
@@ -67,16 +68,18 @@ const MyComponent = () => {
 
 Call `openModal` with the configuration object.
 
-| Prop              | Type                                                      | Description                                                                                                                                                                                | Required |
-| :---------------- | :-------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------- |
-| `content`         | `React.ReactElement`                                      | The JSX content to render inside the modal body.                                                                                                                                           | Yes      |
-| `title`           | `string`                                                  | The title displayed in the modal header.                                                                                                                                                   | Yes      |
-| `size`            | `'sm' \| 'md' \| 'full' \| 'responsive' \| 'md-f-h'`      | Defines the size of the modal. Defaults to `'md'`.                                                                                                                                         | No       |
-| `headerColor`     | `string`                                                  | CSS class name for the header background (e.g., `'bg-red-500'`). Defaults to `'bg-blue-500 text-white'`.                                                                                   | No       |
-| `bodyColor`       | `string`                                                  | CSS class name for the modal body background (e.g., `'bg-white'`). Defaults to `'bg-gray-800 text-white'`.                                                                                 | No       |
-| `triggerRef`      | `React.RefObject<HTMLElement>`                            | A ref pointing to the element that triggered the modal. Used for the animation origin.                                                                                                     | No       |
-| `onClose`         | `() => void`                                              | Optional callback function executed when the modal is closed by the user (via the close button or `closeModal`).                                                                           | No       |
-| `onBeforeClosing` | `{ noticeType: 'notify' \| 'warn'; textContent: string }` | If provided, the standard close action is intercepted, and a small confirmation modal is displayed with the given `textContent` and `noticeType`. If confirmed, the original modal closes. | No       |
+| Prop                   | Type                                                      | Description                                                                                                                                                                                | Required |
+| :--------------------- | :-------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------- |
+| `content`              | `React.ReactElement`                                      | The JSX content to render inside the modal body.                                                                                                                                           | Yes      |
+| `title`                | `string`                                                  | The title displayed in the modal header.                                                                                                                                                   | Yes      |
+| `size`                 | `'sm' \| 'md' \| 'full' \| 'responsive' \| 'md-f-h'`      | Defines the size of the modal. Defaults to `'md'`.                                                                                                                                         | No       |
+| `headerColor`          | `string`                                                  | CSS class name for the header background (e.g., `'bg-red-500'`). Defaults to `'bg-blue-500 text-white'` tailwind class equivalent.                                                         | No       |
+| `bodyColor`            | `string`                                                  | CSS class name for the modal body background (e.g., `'bg-white'`). Defaults to `'bg-gray-800 text-white'` tailwind class equivalent.                                                       | No       |
+| `triggerRef`           | `React.RefObject<HTMLElement>`                            | A ref pointing to the element that triggered the modal. Used for the animation origin.                                                                                                     | No       |
+| `onClose`              | `() => void`                                              | Optional callback function executed when the modal is closed by the user (via the close button or `closeModal`).                                                                           | No       |
+| `onBeforeClosing`      | `{ noticeType: 'notify' \| 'warn'; textContent: string }` | If provided, the standard close action is intercepted, and a small confirmation modal is displayed with the given `textContent` and `noticeType`. If confirmed, the original modal closes. | No       |
+| `disableBackdropClose` | `boolean`                                                 | If true, clicking the backdrop will not close the modal. default to `false`                                                                                                                | No       |
+| `disableEscapeClose`   | `boolean`                                                 | If true, pressing the ESC key will not close the modal. default to `false`                                                                                                                 | No       |
 
 **Example:**
 
