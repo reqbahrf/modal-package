@@ -17,7 +17,6 @@ const generateId = (): string => {
 
 const useModal = () => {
   const [modalStack, setModalStack] = useState<ModalInstance[]>([]);
-  const pendingConfirmationIdsRef = useRef<Set<string>>(new Set());
 
   // Force-close helper used by confirmation flow
   const _forceCloseModal = useCallback((id: string) => {
@@ -44,7 +43,6 @@ const useModal = () => {
           : 'ram-color-header-notify';
 
       const handleConfirm = () => {
-        pendingConfirmationIdsRef.current.delete(originalModalId);
         setModalStack((prev) => {
           const newPrev = prev.slice(0, -1);
           return newPrev;
@@ -53,7 +51,6 @@ const useModal = () => {
       };
 
       const handleCancel = () => {
-        pendingConfirmationIdsRef.current.delete(originalModalId);
         setModalStack((prev) => prev.slice(0, -1));
       };
 
@@ -93,9 +90,8 @@ const useModal = () => {
         if (instanceToClose.onBeforeClosing) {
           const top = prevStack[prevStack.length - 1];
           const confirmationAlreadyTop = top && top.title === 'Confirm Action';
-          const pending = pendingConfirmationIdsRef.current.has(closeId);
 
-          if (!confirmationAlreadyTop && !pending) {
+          if (!confirmationAlreadyTop) {
             const newConfirmationInstance = createConfirmationModal(
               closeId,
               instanceToClose.bodyColor || '',
