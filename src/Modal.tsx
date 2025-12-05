@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { ModalProps } from './types';
 
 const Modal = ({
+  id,
   title,
   size,
   headerColor,
@@ -10,6 +11,8 @@ const Modal = ({
   triggerRef,
   onClose,
   children,
+  isTopModal,
+  style,
 }: ModalProps) => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -70,9 +73,13 @@ const Modal = ({
   return (
     <div
       ref={modalRef}
+      // Apply stacking style (z-index) and conditional backdrop class
+      style={style}
       className={`ram-modal-overlay ${
         isAnimationComplete
-          ? 'ram-animationCompleted'
+          ? isTopModal
+            ? 'ram-active-backdrop'
+            : 'ram-inactive-backdrop'
           : 'ram-animationNotComplete'
       }`}
     >
@@ -84,7 +91,7 @@ const Modal = ({
         >
           <h2 className='ram-modal-title'>{title}</h2>
           <button
-            onClick={onClose}
+            onClick={() => onClose(id)}
             className='ram-modal-close-button'
           >
             <svg
