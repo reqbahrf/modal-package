@@ -1,6 +1,7 @@
 @layer components {
   .ram-modal-overlay {
-    @apply fixed inset-0 z-50 flex items-center justify-center;
+    /* Remove z-50 to allow dynamic z-index via style prop */
+    @apply fixed inset-0 flex items-center justify-center;
   }
 
   /* Base Modal Content */
@@ -30,7 +31,7 @@
 
   /* Header */
   .ram-modal-header {
-    @apply sticky top-0 flex justify-between items-center p-4;
+    @apply sticky top-0 flex justify-between items-center p-4 text-white;
   }
 
   /* Header Title */
@@ -48,10 +49,54 @@
     @apply flex flex-col gap-4 mt-4 p-6;
   }
 
-  .ram-animationCompleted {
+  /* Active Backdrop (only for the topmost modal) */
+  .ram-active-backdrop {
     @apply bg-black opacity-50;
   }
+
+  /* Inactive Backdrop (for modals underneath, allowing stacking without dark screen) */
+  .ram-inactive-backdrop {
+    @apply bg-transparent;
+  }
+
   .ram-animationNotComplete {
     @apply bg-transparent;
+  }
+
+  /* --- Confirmation Modal Utilities --- */
+
+  .ram-confirmation-content-wrapper {
+    @apply flex flex-col gap-4;
+  }
+
+  .ram-confirmation-title {
+    @apply font-semibold;
+  }
+
+  .ram-confirmation-text {
+    @apply font-bold text-center;
+  }
+
+  .ram-confirmation-actions {
+    @apply flex justify-center gap-3 pt-2;
+  }
+
+  /* Base button styles for confirmation */
+  .ram-confirmation-button-base {
+    @apply px-4 py-2 text-sm font-medium rounded-md;
+  }
+
+  /* Cancel Button */
+  .ram-confirmation-button-cancel {
+    @apply border text-gray-700 bg-gray-200 hover:bg-gray-300;
+  }
+
+  /* Dynamic color classes for headers, confirm buttons, and body colors */
+
+  .ram-color-header-notify {
+    @apply bg-blue-600 text-white;
+  }
+  .ram-color-header-warn {
+    @apply bg-red-600 text-white;
   }
 }
