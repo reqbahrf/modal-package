@@ -1,6 +1,6 @@
 {
   "name": "ram-react-modal",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A React modal with TypeScript, Tailwind CSS, and scale-up animations that originate from the triggering element.",
   "main": "dist/index.js",
   "module": "dist/index.js",
