@@ -27,7 +27,7 @@ export interface OpenModalProps {
 export interface ModalInstance {
   id: string;
   content: React.ReactNode;
-  title?: string;
+  title: string;
   triggerRef?: React.RefObject<HTMLElement>;
   headerColor?: string;
   bodyColor?: string;
