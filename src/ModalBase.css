@@ -17,6 +17,10 @@
     max-width: 70dvw;
     max-height: 50dvh;
   }
+  .ram-modal-size-md-f-h {
+    max-width: 70dvw;
+    max-height: 95dvh;
+  }
   .ram-modal-size-full {
     @apply min-w-full max-w-full min-h-full max-h-full;
   }

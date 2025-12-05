@@ -23,6 +23,8 @@ const Modal = ({
         return 'ram-modal-size-full';
       case 'responsive':
         return 'ram-modal-size-responsive';
+      case 'md-f-h':
+        return 'ram-modal-size-md-f-h';
       default:
         return 'ram-modal-size-md'; // Default to md if size is undefined or unhandled
     }
