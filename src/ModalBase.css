@@ -1,103 +1,171 @@
-@layer components {
-  .ram-modal-overlay {
-    /* Remove z-50 to allow dynamic z-index via style prop */
-    @apply fixed inset-0 flex items-center justify-center;
-  }
+/* Base Modal Overlay */
+.ram-modal-overlay {
+  /* Remove z-50 to allow dynamic z-index via style prop */
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  /* Base Modal Content */
-  .ram-modal-content {
-    @apply relative z-20 overflow-y-auto rounded-lg shadow-xl;
-  }
+/* Base Modal Content */
+.ram-modal-content {
+  position: relative;
+  z-index: 20;
+  overflow-y: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
 
-  /* Size Variants */
-  .ram-modal-size-sm {
-    max-width: 50dvw;
-    max-height: 30dvh;
-  }
-  .ram-modal-size-md {
-    max-width: 70dvw;
-    max-height: 50dvh;
-  }
-  .ram-modal-size-md-f-h {
-    max-width: 70dvw;
-    max-height: 95dvh;
-  }
-  .ram-modal-size-full {
-    @apply min-w-full max-w-full min-h-full max-h-full;
-  }
+/* Size Variants */
+.ram-modal-size-sm {
+  max-width: 50dvw;
+  max-height: 30dvh;
+}
+.ram-modal-size-md {
+  max-width: 70dvw;
+  max-height: 50dvh;
+}
+.ram-modal-size-md-f-h {
+  max-width: 70dvw;
+  max-height: 95dvh;
+}
+.ram-modal-size-full {
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
+.ram-modal-size-responsive {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+@media (min-width: 768px) {
   .ram-modal-size-responsive {
-    @apply w-full h-full max-w-full max-h-full md:max-w-[50dvw] md:max-h-[90dvh];
+    max-width: 50dvw;
+    max-height: 90dvh;
   }
+}
 
-  /* Header */
-  .ram-modal-header {
-    @apply sticky top-0 flex justify-between items-center p-4 text-white;
-  }
+/* Header */
+.ram-modal-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  color: #fff;
+}
 
-  /* Header Title */
-  .ram-modal-title {
-    @apply text-2xl text-center font-bold;
-  }
+/* Header Title */
+.ram-modal-title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  text-align: center;
+  font-weight: 700;
+}
 
-  /* Close Button */
-  .ram-modal-close-button {
-    @apply text-2xl right-90;
-  }
+/* Close Button */
+.ram-modal-close-button {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
 
-  /* Body Content Wrapper */
-  .ram-modal-body {
-    @apply flex flex-col gap-4 mt-4 p-6 min-w-full min-h-full;
-  }
+/* Body Content Wrapper */
+.ram-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1.5rem;
+  min-width: 100%;
+  min-height: 100%;
+}
 
-  /* Backdrop Layer */
-  .ram-modal-backdrop {
-    @apply absolute inset-0 z-10; /* dedicated backdrop layer */
-  }
+/* Backdrop Layer */
+.ram-modal-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10; /* dedicated backdrop layer */
+}
 
-  /* Active Backdrop (only for the topmost modal) */
-  .ram-active-backdrop {
-    @apply bg-black opacity-50;
-  }
+/* Active Backdrop (only for the topmost modal) */
+.ram-active-backdrop {
+  background-color: #000;
+  opacity: 0.5;
+}
 
-  /* Inactive Backdrop (for modals underneath, allowing stacking without dark screen) */
-  .ram-inactive-backdrop {
-    @apply bg-transparent;
-  }
+/* Inactive Backdrop (for modals underneath, allowing stacking without dark screen) */
+.ram-inactive-backdrop {
+  background-color: transparent;
+}
 
-  .ram-animationNotComplete {
-    @apply bg-transparent;
-  }
+.ram-animationNotComplete {
+  background-color: transparent;
+}
 
-  /* --- Confirmation Modal Utilities --- */
+/* --- Confirmation Modal Utilities --- */
 
-  .ram-confirmation-content-wrapper {
-    @apply flex flex-col gap-4;
-  }
+.ram-confirmation-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-  .ram-confirmation-text {
-    @apply font-bold text-center;
-  }
+.ram-confirmation-text {
+  font-weight: 700;
+  text-align: justify;
+  text-align-last: center;
+}
 
-  .ram-confirmation-actions {
-    @apply flex justify-center gap-3 pt-2;
-  }
+.ram-confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
 
-  /* Base button styles for confirmation */
-  .ram-confirmation-button-base {
-    @apply px-4 py-2 text-sm font-medium rounded-md;
-  }
+/* Base button styles for confirmation */
+.ram-confirmation-button-base {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+}
 
-  /* Cancel Button */
-  .ram-confirmation-button-cancel {
-    @apply border text-gray-700 bg-gray-200 hover:bg-gray-300;
-  }
+/* Cancel Button */
+.ram-confirmation-button-cancel {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e5e7eb;
+  color: #374151;
+  background-color: #e5e7eb;
+}
+.ram-confirmation-button-cancel:hover {
+  background-color: #d1d5db;
+}
 
-  /* Dynamic color classes for headers, confirm buttons, and body colors */
+/* Dynamic color classes for headers, confirm buttons, and body colors */
 
-  .ram-color-header-notify {
-    @apply bg-blue-600 text-white;
-  }
-  .ram-color-header-warn {
-    @apply bg-red-600 text-white;
-  }
+.ram-color-header-notify {
+  background-color: #2563eb;
+  color: #fff;
+}
+.ram-color-header-warn {
+  background-color: #dc2626;
+  color: #fff;
 }
