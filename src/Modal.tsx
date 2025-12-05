@@ -6,6 +6,7 @@ const Modal = ({
   title,
   size,
   headerColor,
+  bodyColor,
   triggerRef,
   onClose,
   children,

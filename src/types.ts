@@ -7,6 +7,7 @@ export interface ModalProps<T = any> {
   title: string;
   triggerRef?: React.RefObject<HTMLButtonElement> | undefined;
   headerColor?: string;
+  bodyColor?: string;
   onClose: () => void;
 }
 
