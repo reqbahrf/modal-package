@@ -5,7 +5,7 @@
 
   /* Base Modal Content */
   .ram-modal-content {
-    @apply relative overflow-y-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl;
+    @apply relative overflow-y-auto rounded-lg shadow-xl;
   }
 
   /* Size Variants */
@@ -31,12 +31,12 @@
 
   /* Header Title */
   .ram-modal-title {
-    @apply text-2xl text-center font-bold text-gray-700 dark:text-white;
+    @apply text-2xl text-center font-bold;
   }
 
   /* Close Button */
   .ram-modal-close-button {
-    @apply text-2xl right-90 text-gray-600 dark:text-gray-400;
+    @apply text-2xl right-90;
   }
 
   /* Body Content Wrapper */

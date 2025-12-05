@@ -69,13 +69,15 @@ const Modal = ({
     <div
       ref={modalRef}
       className={`ram-modal-overlay ${
-        isAnimationComplete ? 'animationCompleted' : 'animationNotComplete'
+        isAnimationComplete
+          ? 'ram-animationCompleted'
+          : 'ram-animationNotComplete'
       }`}
     >
       <div className={`ram-modal-content ${sizeClass}`}>
         <div
           className={`ram-modal-header ${
-            headerColor || 'bg-white dark:bg-gray-800'
+            headerColor || 'bg-blue-500 text-white'
           }`}
         >
           <h2 className='ram-modal-title'>{title}</h2>
