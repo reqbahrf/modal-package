@@ -64,14 +64,7 @@ const useModal = (): UseModalReturn => {
       };
 
       const ConfirmationContent = (
-        <div
-          className={`ram-confirmation-content-wrapper ${
-            originalBgColor || 'bg-gray-800'
-          }`}
-        >
-          <p className='ram-confirmation-title'>
-            You are about to close this modal.
-          </p>
+        <div className='ram-confirmation-content-wrapper'>
           <p className='ram-confirmation-text'>{textContent}</p>
           <div className='ram-confirmation-actions'>
             <button onClick={handleCancel}>Cancel</button>
@@ -88,9 +81,10 @@ const useModal = (): UseModalReturn => {
       if (openModalRef.current) {
         openModalRef.current({
           children: ConfirmationContent,
-          title: `Confirm Action: ${noticeType.toUpperCase()}`,
+          title: 'Confirm Action',
           size: 'sm',
           headerColor: header,
+          bodyColor: originalBgColor,
         });
       }
     },
