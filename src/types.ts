@@ -1,42 +1,41 @@
-import { ReactElement, CSSProperties } from 'react';
+// src/types.ts
+import React from 'react';
 
-export type ModalSize = 'sm' | 'md' | 'full' | 'responsive' | 'md-f-h';
+export type SizeOption = 'sm' | 'md' | 'full' | 'responsive' | 'md-f-h';
 
-export type NoticeType = 'notify' | 'warn';
-export interface OnBeforeClosingProps {
+export type NoticeType = 'warn' | 'notify';
+
+export interface OnBeforeClosing {
   noticeType: NoticeType;
   textContent: string;
 }
 
-export interface ModalProps<T = any> {
-  id: string; // Add unique ID for stacking
-  children: ReactElement<T>;
-  size: ModalSize;
-  title: string;
-  triggerRef?: React.RefObject<HTMLButtonElement> | undefined;
+export interface OpenModalProps {
+  content: React.ReactNode;
+  size?: SizeOption;
+  title?: string;
   headerColor?: string;
   bodyColor?: string;
-  onClose: (id: string) => void; // Close handler now accepts ID
-  isTopModal: boolean; // Flag to determine z-index/backdrop visibility
-  style?: CSSProperties;
-}
-
-export interface OpenModalProps
-  extends Omit<
-    ModalProps,
-    'onClose' | 'id' | 'isTopModal' | 'style' | 'children'
-  > {
-  content: ReactElement;
   onClose?: () => void;
-  onBeforeClosing?: OnBeforeClosingProps;
+  triggerRef?: React.RefObject<HTMLElement>;
+  onBeforeClosing?: OnBeforeClosing | null;
+  // new UX flags:
+  disableBackdropClose?: boolean;
+  disableEscapeClose?: boolean;
 }
 
-// Defines a modal currently in the stack
-// We omit isTopModal and style because they are calculated during rendering.
-export interface ModalInstance
-  extends Omit<ModalProps, 'onClose' | 'isTopModal' | 'style' | 'children'> {
-  content: ReactElement;
-  onCloseCallback: (() => void) | undefined;
-  closeId: string; // The ID to call the context's closeModal with
-  onBeforeClosing?: OnBeforeClosingProps;
+export interface ModalInstance {
+  id: string;
+  content: React.ReactNode;
+  title?: string;
+  triggerRef?: React.RefObject<HTMLElement>;
+  headerColor?: string;
+  bodyColor?: string;
+  size?: SizeOption;
+  closeId: string;
+  onCloseCallback?: () => void;
+  onBeforeClosing?: OnBeforeClosing | null;
+  // new UX flags:
+  disableBackdropClose?: boolean;
+  disableEscapeClose?: boolean;
 }
