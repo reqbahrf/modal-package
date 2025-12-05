@@ -1,6 +1,6 @@
 {
   "name": "ram-react-modal",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A React modal with TypeScript and scale-up animations that originate from the triggering element.",
   "main": "dist/index.js",
   "module": "dist/index.js",
