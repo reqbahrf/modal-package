@@ -1,6 +1,6 @@
 {
   "name": "ram-react-modal",
-  "version": "2.0.0",
+  "version": "0.0.5",
   "description": "A React modal with TypeScript, Tailwind CSS, and scale-up animations that originate from the triggering element.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "prepare": "npm run build",
-    "build": "tsc && cp src/ModalBase.css dist/ModalBase.css"
+    "build": "tsc && (if exist .\\src\\ModalBase.css (copy .\\src\\ModalBase.css .\\dist\\ || echo File copied) || cp src/ModalBase.css dist/ || echo File copied)",
+    "dev": "tsc --watch && cp src/ModalBase.css dist/ModalBase.css"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
@@ -31,7 +32,8 @@
   "license": "MIT",
   "devDependencies": {
     "typescript": "^5.6.3",
-    "@types/react": "^19.2.7"
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.1"
   },
   "keywords": [
     "react",
