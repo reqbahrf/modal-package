@@ -6,7 +6,8 @@ A flexible, context-based React modal component built with TypeScript, React Hoo
 
 - **Context-Based Management:** Easily open and close modals from any component using the `useModalContext` hook.
 - **Animated Entry:** Smooth scale-up animation originating from the button that triggered the modal (if provided).
-- **Customizable Sizes:** Supports `sm`, `md` (default), `full`, and `responsive` sizes.
+- **Customizable Sizes:** Supports `sm`, `md` (default), `full`, `responsive`, and the unreleased `md-f-h` size.
+- **Customizable Appearance:** Configure the background color for both the header (`headerColor`) and the body (`bodyColor`) using Tailwind CSS classes.
 - **Prop-Driven Content:** Pass JSX content directly to the `openModal` function.
 
 ## Prerequisites
@@ -90,14 +91,15 @@ const MyComponent = () => {
 
 Call `openModal` with the configuration object.
 
-| Prop          | Type                                     | Description                                                                                                      | Required |
-| :------------ | :--------------------------------------- | :--------------------------------------------------------------------------------------------------------------- | :------- |
-| `children`    | `React.ReactElement`                     | The JSX content to render inside the modal body.                                                                 | Yes      |
-| `title`       | `string`                                 | The title displayed in the modal header.                                                                         | Yes      |
-| `size`        | `'sm' \| 'md' \| 'full' \| 'responsive'` | Defines the size of the modal. Defaults to `'md'`.                                                               | No       |
-| `headerColor` | `string`                                 | Tailwind CSS class for the header background (e.g., `'bg-blue-500'`).                                            | No       |
-| `triggerRef`  | `React.RefObject<HTMLElement>`           | A ref pointing to the element that triggered the modal. Used for the animation origin.                           | No       |
-| `onClose`     | `() => void`                             | Optional callback function executed when the modal is closed by the user (via the close button or `closeModal`). | No       |
+| Prop          | Type                                                 | Description                                                                                                      | Required |
+| :------------ | :--------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- | :------- |
+| `children`    | `React.ReactElement`                                 | The JSX content to render inside the modal body.                                                                 | Yes      |
+| `title`       | `string`                                             | The title displayed in the modal header.                                                                         | Yes      |
+| `size`        | `'sm' \| 'md' \| 'full' \| 'responsive' \| 'md-f-h'` | Defines the size of the modal. Defaults to `'md'`.                                                               | No       |
+| `headerColor` | `string`                                             | Tailwind CSS class for the header background (e.g., `'bg-red-500'`). Defaults to `'bg-blue-500 text-white'`.     | No       |
+| `bodyColor`   | `string`                                             | Tailwind CSS class for the modal body background (e.g., `'bg-white'`). Defaults to `'bg-gray-800 text-white'`.   | No       |
+| `triggerRef`  | `React.RefObject<HTMLElement>`                       | A ref pointing to the element that triggered the modal. Used for the animation origin.                           | No       |
+| `onClose`     | `() => void`                                         | Optional callback function executed when the modal is closed by the user (via the close button or `closeModal`). | No       |
 
 **Example:**
 
@@ -149,9 +151,10 @@ Use the `closeModal` function provided by `useModalContext` to programmatically 
 
 The `Modal` component supports four size options via the `size` prop:
 
-| Size           | Description                                                                                                                    |
-| :------------- | :----------------------------------------------------------------------------------------------------------------------------- |
-| `'sm'`         | Small size: `max-w-[50vw] max-h-[30vh]`                                                                                        |
-| `'md'`         | Medium size (Default): `max-w-[70vw] max-h-[50vh]`                                                                             |
-| `'full'`       | Full screen: `min-w-full max-w-full min-h-full max-h-full`                                                                     |
-| `'responsive'` | Full width/height on small screens, smaller on md/large: `w-full h-full max-w-full max-h-full md:max-w-[50vw] md:max-h-[90vh]` |
+| Size           | Description                                                                                                                                                           |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `'sm'`         | Small size: `max-width: 50dvw; max-height: 30dvh;`                                                                                                                    |
+| `'md'`         | Medium size (Default): `max-width: 70dvw; max-height: 50dvh;`                                                                                                         |
+| `'md-f-h'`     | Medium width, fixed height: `max-width: 70dvw; max-height: 95dvh;`                                                                                                    |
+| `'full'`       | Full screen: `min-w-full max-w-full min-h-full max-h-full`                                                                                                            |
+| `'responsive'` | Full width/height on small screens, smaller on md/large: `w-full h-full max-w-full max-h-full md:max-w-[50dvw] md:max-h-[90dvh]` (using `dvw`/`dvh` units internally) |
