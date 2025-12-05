@@ -1,13 +1,13 @@
 # ram-react-modal
 
-A flexible, context-based React modal component built with TypeScript, React Hooks, and Tailwind CSS, featuring a unique, scale-up animation originating from the triggering element.
+A flexible, context-based React modal component built with TypeScript and React Hooks, featuring a unique, scale-up animation originating from the triggering element.
 
 ## Features
 
 - **Context-Based Management:** Easily open and close modals from any component using the `useModalContext` hook.
 - **Animated Entry:** Smooth scale-up animation originating from the button that triggered the modal (if provided).
 - **Customizable Sizes:** Supports `sm`, `md` (default), `full`, `responsive`, and the unreleased `md-f-h` size.
-- **Customizable Appearance:** Configure the background color for both the header (`headerColor`) and the body (`bodyColor`) using Tailwind CSS classes.
+- **Customizable Appearance:** Configure the background color for both the header (`headerColor`) and the body (`bodyColor`) using string class names (e.g., 'bg-red-500').
 - **Prop-Driven Content:** Pass JSX content directly to the `openModal` function.
 
 ## Prerequisites
@@ -16,13 +16,10 @@ This package requires the following peer dependencies to be installed in your pr
 
 - React 18 or later
 - React DOM 18 or later
-- Tailwind CSS 3.0 or later
 
 ## Installation
 
-1. First, ensure you have Tailwind CSS installed and configured in your project. If you haven't set up Tailwind CSS yet, follow the [official installation guide](https://tailwindcss.com/docs/installation).
-
-2. Install the modal package:
+Install the modal package:
 
 ```bash
 # Using npm
@@ -30,27 +27,6 @@ npm install ram-react-modal
 
 # Using yarn
 yarn add ram-react-modal
-```
-
-3. **Configure Tailwind and Styles**
-
-To ensure the modal's base styles and Tailwind directives are applied correctly, you must import the package's CSS file into your main stylesheet (e.g., `globals.css`):
-
-```css
-@import 'ram-react-modal/src/ModalBase.css';
-```
-
-Additionally, if you utilize props that accept dynamic Tailwind classes (e.g., `headerColor`), you must configure your consuming project's `tailwind.config.js` to scan the library's source files:
-
-```js
-module.exports = {
-  // ...
-  content: [
-    // ...
-    './node_modules/ram-react-modal/src/**/*.{js,ts,jsx,tsx}',
-  ],
-  // ...
-};
 ```
 
 ## Setup
