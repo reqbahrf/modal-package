@@ -11,16 +11,25 @@ interface UseModalReturn {
 
 const useModal = (): UseModalReturn => {
   const [isOpen, setIsOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<ReactElement | null>(null);
-  const [modalTitle, setModalTitle] = useState('');
-  const [triggerRef, setTriggerRef] = useState<
-    React.RefObject<HTMLButtonElement> | undefined
-  >(undefined);
-  const [modalHeaderColor, setModalHeaderColor] = useState('');
-  const [size, setSize] = useState<ModalSize>('md');
-  const [onCloseCallback, setOnCloseCallback] = useState<
-    (() => void) | undefined
-  >(undefined);
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    content: ReactElement | null;
+    title: string;
+    triggerRef: React.RefObject<HTMLButtonElement> | undefined;
+    headerColor: string;
+    bodyColor: string;
+    size: ModalSize;
+    onCloseCallback: (() => void) | undefined;
+  }>({
+    isOpen: false,
+    content: null,
+    title: '',
+    triggerRef: undefined,
+    headerColor: '',
+    bodyColor: '',
+    size: 'md',
+    onCloseCallback: undefined,
+  });
 
   const openModal = useCallback(
     ({
@@ -28,21 +37,26 @@ const useModal = (): UseModalReturn => {
       size,
       title,
       headerColor,
+      bodyColor,
       onClose,
       triggerRef,
     }: OpenModalProps) => {
-      setSize(size);
-      setModalContent(children);
-      setModalTitle(title);
-      setModalHeaderColor(headerColor || 'bg-white dark:bg-gray-950');
-      setTriggerRef(triggerRef);
-      setOnCloseCallback(() => {
-        return () => {
-          setIsOpen(false);
-          if (onClose) {
-            onClose();
-          }
-        };
+      setModalState({
+        isOpen: true,
+        content: children,
+        title,
+        triggerRef,
+        headerColor,
+        bodyColor,
+        size,
+        onCloseCallback: () => {
+          return () => {
+            setIsOpen(false);
+            if (onClose) {
+              onClose();
+            }
+          };
+        },
       });
       setIsOpen(true);
     },
@@ -51,22 +65,28 @@ const useModal = (): UseModalReturn => {
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
-    setModalContent(null);
-    setTriggerRef(undefined);
-    setModalTitle('');
-    setModalHeaderColor('');
-    setOnCloseCallback(undefined);
+    setModalState({
+      isOpen: false,
+      content: null,
+      title: '',
+      triggerRef: undefined,
+      headerColor: '',
+      bodyColor: '',
+      size: 'md',
+      onCloseCallback: undefined,
+    });
   }, []);
 
   const modal = isOpen ? (
     <Modal
-      size={size}
-      title={modalTitle}
-      headerColor={modalHeaderColor}
-      onClose={onCloseCallback || closeModal}
-      triggerRef={triggerRef}
+      size={modalState.size}
+      title={modalState.title}
+      headerColor={modalState.headerColor}
+      bodyColor={modalState.bodyColor}
+      onClose={modalState.onCloseCallback || closeModal}
+      triggerRef={modalState.triggerRef}
     >
-      {modalContent!}
+      {modalState.content!}
     </Modal>
   ) : null;
 
