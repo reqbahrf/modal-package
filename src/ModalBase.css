@@ -1,57 +1,159 @@
-@layer components {
-  .ram-modal-overlay {
-    @apply fixed inset-0 z-50 flex items-center justify-center;
-  }
+/* Core overlay */
+.ram-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
 
-  /* Base Modal Content */
-  .ram-modal-content {
-    @apply relative overflow-y-auto rounded-lg shadow-xl;
-  }
+/* Backdrop */
+.ram-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 240ms ease;
+  z-index: 99;
+}
 
-  /* Size Variants */
-  .ram-modal-size-sm {
-    max-width: 50dvw;
-    max-height: 30dvh;
-  }
-  .ram-modal-size-md {
-    max-width: 70dvw;
-    max-height: 50dvh;
-  }
-  .ram-modal-size-md-f-h {
-    max-width: 70dvw;
-    max-height: 95dvh;
-  }
-  .ram-modal-size-full {
-    @apply min-w-full max-w-full min-h-full max-h-full;
-  }
-  .ram-modal-size-responsive {
-    @apply w-full h-full max-w-full max-h-full md:max-w-[50dvw] md:max-h-[90dvh];
-  }
+/* Active backdrop when top-most */
+.ram-active-backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
 
-  /* Header */
-  .ram-modal-header {
-    @apply sticky top-0 flex justify-between items-center p-4;
-  }
+/* Inactive modals show a dimmer or no backdrop (tweak as desired) */
+.ram-inactive-backdrop {
+  background: rgba(0, 0, 0, 0.18);
+}
 
-  /* Header Title */
-  .ram-modal-title {
-    @apply text-2xl text-center font-bold;
-  }
+/* Modal content base */
+.ram-modal-content {
+  position: relative;
+  z-index: 100;
+  border-radius: 8px;
+  overflow: hidden;
+  transform-origin: center center; /* still overridden inline when triggerRef exists */
+  /* start in scaled-down state; CSS animation will bring to final state */
+  animation-fill-mode: forwards;
+}
 
-  /* Close Button */
-  .ram-modal-close-button {
-    @apply text-2xl right-90;
-  }
+/* Sizes (basic examples; tweak as needed) */
+.ram-modal-size-sm {
+  width: 320px;
+  max-width: 92vw;
+}
+.ram-modal-size-md {
+  width: 640px;
+  max-width: 96vw;
+}
+.ram-modal-size-full {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+}
+.ram-modal-size-responsive {
+  width: min(90vw, 800px);
+}
+.ram-modal-size-md-f-h {
+  width: 720px;
+  max-width: 96vw;
+}
 
-  /* Body Content Wrapper */
-  .ram-modal-body {
-    @apply flex flex-col gap-4 mt-4 p-6;
-  }
+/* Header/body basics */
+.ram-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+.ram-modal-title {
+  font-size: 1.125rem;
+  margin: 0;
+}
+.ram-modal-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
 
-  .ram-animationCompleted {
-    @apply bg-black opacity-50;
+/* Body wrapper */
+.ram-modal-body {
+  padding: 16px;
+}
+
+/* Animation: scale-in (CSS only) */
+@keyframes ram-scale-in {
+  from {
+    transform: scale(0.84);
+    opacity: 0;
+    border-radius: 40px;
   }
-  .ram-animationNotComplete {
-    @apply bg-transparent;
+  60% {
+    transform: scale(1.03);
+    opacity: 1;
   }
+  to {
+    transform: scale(1);
+    opacity: 1;
+    border-radius: 8px;
+  }
+}
+
+/* Apply the animation */
+.ram-modal-enter {
+  animation: ram-scale-in 400ms cubic-bezier(0.55, 0.09, 0.68, 0.53);
+}
+
+/* When stacking multiple modals, non-top modals can be slightly reduced in visual prominence */
+.ram-modal-content.inactive {
+  transform: scale(0.98);
+  filter: blur(0.5px); /* subtle */
+}
+
+/* Confirmation modal small tweaks */
+.ram-confirmation-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ram-confirmation-text {
+  font-weight: 700;
+  text-align: justify;
+  text-align-last: center;
+}
+
+.ram-confirmation-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.ram-confirmation-button-base {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.ram-default-header-color {
+  background-color: oklch(62.3% 0.214 259.815);
+  color: white;
+}
+
+.ram-default-body-content-color {
+  background-color: oklch(27.8% 0.033 256.848);
+  color: white;
+}
+
+/* Dynamic color classes for headers, confirm buttons, and body colors */
+
+.ram-color-header-notify {
+  background-color: #2563eb;
+  color: #fff;
+}
+.ram-color-header-warn {
+  background-color: #dc2626;
+  color: #fff;
 }
