@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "prepare": "npm run build",
-    "build": "tsc && (if exist .\\src\\ModalBase.css (copy .\\src\\ModalBase.css .\\dist\\ || echo File copied) || cp src/ModalBase.css dist/ || echo File copied)",
+    "build": "tsc && cp src/ModalBase.css dist/ModalBase.css",
+    "build:local": "tsc && copy .\\src\\ModalBase.css .\\dist\\",
     "dev": "tsc --watch && cp src/ModalBase.css dist/ModalBase.css"
   },
   "peerDependencies": {
