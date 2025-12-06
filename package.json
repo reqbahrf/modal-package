@@ -1,7 +1,7 @@
 {
   "name": "ram-react-modal",
-  "version": "0.0.8",
-  "description": "A React modal with TypeScript and scale-up animations that originate from the triggering element.",
+  "version": "1.0.0",
+  "description": "A lightweight and customizable React modal with TypeScript support. Includes a dynamic scale-up animation that starts from the trigger element, support for stacking modals, and an optional confirmation step before closing.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,6 +39,7 @@
     "component",
     "scale-up",
     "originating",
-    "triggering"
+    "triggering",
+    "on closing confirmation"
   ]
 }
