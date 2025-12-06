@@ -58,7 +58,6 @@ const Modal: React.FC<Props> = ({
   }, [id, onClose, disableEscapeClose]);
 
   const handleBackdropClick = () => {
-    console.log('Backdrop clicked');
     if (disableBackdropClose) return;
     onClose(id);
   };
@@ -66,7 +65,6 @@ const Modal: React.FC<Props> = ({
   const handleCloseClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onClose(id);
-    console.log('run close modal');
   };
 
   const getSizeClass = (s: Props['size']) => {

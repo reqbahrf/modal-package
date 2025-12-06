@@ -1,4 +1,3 @@
-// src/types.ts
 import React from 'react';
 
 export type SizeOption = 'sm' | 'md' | 'full' | 'responsive' | 'md-f-h';

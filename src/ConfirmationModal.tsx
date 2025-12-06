@@ -1,4 +1,3 @@
-// src/ConfirmationModal.tsx
 'use client';
 import React from 'react';
 
@@ -15,7 +14,6 @@ const ConfirmationModal: React.FC<Props> = ({
   onCancel,
   headerClass,
 }) => {
-  console.log('ConfirmationModal rendered');
   return (
     <div className='ram-confirmation-content-wrapper'>
       <p className='ram-confirmation-text'>{text}</p>

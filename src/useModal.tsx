@@ -1,4 +1,3 @@
-// src/useModal.tsx
 'use client';
 import { useCallback, useMemo, useState, useRef } from 'react';
 import Modal from './Modal';

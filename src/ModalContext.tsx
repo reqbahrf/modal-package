@@ -1,4 +1,3 @@
-// src/ModalContext.tsx
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
