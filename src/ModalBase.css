@@ -86,9 +86,13 @@
 /* Animation: scale-in (CSS only) */
 @keyframes ram-scale-in {
   from {
-    transform: scale(0.84);
+    transform: scale(0.3);
     opacity: 0;
     border-radius: 40px;
+    -webkit-transform: scale(0.3);
+    -moz-transform: scale(0.3);
+    -ms-transform: scale(0.3);
+    -o-transform: scale(0.3);
   }
   60% {
     transform: scale(1.03);
@@ -103,7 +107,8 @@
 
 /* Apply the animation */
 .ram-modal-enter {
-  animation: ram-scale-in 400ms cubic-bezier(0.55, 0.09, 0.68, 0.53);
+  animation: ram-scale-in 600ms cubic-bezier(0.55, 0.09, 0.68, 0.53);
+  -webkit-animation: ram-scale-in 600ms cubic-bezier(0.55, 0.09, 0.68, 0.53);
 }
 
 /* When stacking multiple modals, non-top modals can be slightly reduced in visual prominence */
