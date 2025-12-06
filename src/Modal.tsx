@@ -33,17 +33,12 @@ const Modal: React.FC<Props> = ({
       const TriggeringElement = triggerRef?.current;
       if (TriggeringElement) {
         const triggerRect = TriggeringElement.getBoundingClientRect();
-        const contentRect = contentRef.current.getBoundingClientRect();
 
         // Calculate the center of the trigger element in viewport coordinates
         const triggerCenterX = triggerRect.left + triggerRect.width / 2;
         const triggerCenterY = triggerRect.top + triggerRect.height / 2;
 
-        // Calculate the center point relative to the modal content's top-left corner
-        const relativeCenterX = triggerCenterX - contentRect.left;
-        const relativeCenterY = triggerCenterY - contentRect.top;
-
-        contentRef.current.style.transformOrigin = `${relativeCenterX}px ${relativeCenterY}px`;
+        contentRef.current.style.transformOrigin = `${triggerCenterX}px ${triggerCenterY}px`;
       } else {
         // default center
         contentRef.current.style.transformOrigin = `50% 50%`;
