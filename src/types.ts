@@ -16,7 +16,7 @@ export interface OpenModalProps {
   headerColor?: string;
   bodyColor?: string;
   onClose?: () => void;
-  triggerRef?: React.RefObject<HTMLElement>;
+  triggerRef?: React.RefObject<HTMLElement | null>;
   onBeforeClosing?: OnBeforeClosing | null;
   // new UX flags:
   disableBackdropClose?: boolean;
@@ -27,7 +27,7 @@ export interface ModalInstance {
   id: string;
   content: React.ReactNode;
   title: string;
-  triggerRef?: React.RefObject<HTMLElement>;
+  triggerRef?: React.RefObject<HTMLElement | null>;
   headerColor?: string;
   bodyColor?: string;
   size?: SizeOption;

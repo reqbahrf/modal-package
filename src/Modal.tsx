@@ -25,20 +25,28 @@ const Modal: React.FC<Props> = ({
   disableBackdropClose,
   disableEscapeClose,
 }) => {
-  const modalRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
-  // Set transform origin (so scale animation originates from trigger)
   useEffect(() => {
-    if (!modalRef.current) return;
+    if (!contentRef.current) return;
     try {
-      if (triggerRef?.current) {
-        const rect = triggerRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        modalRef.current.style.transformOrigin = `${centerX}px ${centerY}px`;
+      const TriggeringElement = triggerRef?.current;
+      if (TriggeringElement) {
+        const triggerRect = TriggeringElement.getBoundingClientRect();
+        const contentRect = contentRef.current.getBoundingClientRect();
+
+        // Calculate the center of the trigger element in viewport coordinates
+        const triggerCenterX = triggerRect.left + triggerRect.width / 2;
+        const triggerCenterY = triggerRect.top + triggerRect.height / 2;
+
+        // Calculate the center point relative to the modal content's top-left corner
+        const relativeCenterX = triggerCenterX - contentRect.left;
+        const relativeCenterY = triggerCenterY - contentRect.top;
+
+        contentRef.current.style.transformOrigin = `${relativeCenterX}px ${relativeCenterY}px`;
       } else {
         // default center
-        modalRef.current.style.transformOrigin = `50% 50%`;
+        contentRef.current.style.transformOrigin = `50% 50%`;
       }
     } catch {
       // ignore measurement errors (SSR guard)
@@ -90,7 +98,6 @@ const Modal: React.FC<Props> = ({
     <div
       className='ram-modal-overlay'
       style={style}
-      ref={modalRef}
     >
       <div
         className={`ram-modal-backdrop ${
@@ -102,6 +109,7 @@ const Modal: React.FC<Props> = ({
       <div
         role='dialog'
         aria-modal='true'
+        ref={contentRef}
         className={`ram-modal-content ${sizeClass} ram-modal-enter ${
           isTopModal ? '' : 'inactive'
         } ${bodyColor || 'ram-default-body-content-color'}`}
