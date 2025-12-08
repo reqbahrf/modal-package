@@ -18,9 +18,17 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Ensure portal uses document.body only on client
     setMounted(true);
-  }, []);
+    if (modalStack.length > 0) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [modalStack]);
 
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>

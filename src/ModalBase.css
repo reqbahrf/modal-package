@@ -41,23 +41,23 @@
 /* Sizes (basic examples; tweak as needed) */
 .ram-modal-size-sm {
   width: 320px;
-  max-width: 92vw;
+  max-width: 92dvw;
 }
 .ram-modal-size-md {
   width: 640px;
-  max-width: 96vw;
+  max-width: 96dvw;
 }
 .ram-modal-size-full {
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   border-radius: 0;
 }
 .ram-modal-size-responsive {
-  width: min(90vw, 800px);
+  width: min(90dvw, 800px);
 }
 .ram-modal-size-md-f-h {
   width: 720px;
-  max-width: 96vw;
+  max-width: 96dvw;
 }
 
 /* Header/body basics */
