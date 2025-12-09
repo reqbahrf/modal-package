@@ -33,9 +33,14 @@
   z-index: 100;
   border-radius: 8px;
   overflow: hidden;
-  transform-origin: center center; /* still overridden inline when triggerRef exists */
-  /* start in scaled-down state; CSS animation will bring to final state */
+  transform-origin: center center;
+  /* still overridden inline when triggerRef exists */ /* start in scaled-down state:;
+  CSSanimationwillbringtofinalstate*/
   animation-fill-mode: forwards;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
 }
 
 /* Sizes (basic examples; tweak as needed) */
@@ -64,8 +69,7 @@
 .ram-modal-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
 }
 .ram-modal-title {
   font-size: 1.125rem;
@@ -75,12 +79,12 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px;
+  padding: 0.375rem;
 }
 
 /* Body wrapper */
 .ram-modal-body {
-  padding: 16px;
+  padding: 0;
 }
 
 /* Animation: scale-in (CSS only) */
@@ -121,7 +125,8 @@
 .ram-confirmation-content-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
 }
 
 .ram-confirmation-text {
@@ -132,18 +137,18 @@
 
 .ram-confirmation-actions {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   justify-content: center;
 }
 .ram-confirmation-button-base {
-  padding: 8px 12px;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
   cursor: pointer;
   border: none;
 }
 
 .ram-default-header-color {
-  background-color: oklch(62.3% 0.214 259.815);
+  background-color: transparent;
   color: white;
 }
 

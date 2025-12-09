@@ -113,8 +113,11 @@ const Modal: React.FC<Props> = ({
           className={`ram-modal-header ${
             headerColor || 'ram-default-header-color'
           }`}
+          style={{
+            justifyContent: title ? 'space-between' : 'end',
+          }}
         >
-          <h2 className='ram-modal-title'>{title}</h2>
+          {title && <h2 className='ram-modal-title'>{title}</h2>}
           <button
             type='button'
             className='ram-modal-close-button'
