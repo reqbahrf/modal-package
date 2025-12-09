@@ -2,9 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.2] – 2025-12-08
+## [1.1.3] – 2025-12-09
 
-### Changed
+- Enhanced modal flexibility and styling
+  - Made the modal title optional with dynamic header layout adjustment
+  - Updated padding and gap values from pixels to `rem` units for better responsiveness
+  - Set default modal header background to transparent
+  - Added dynamic `justify-content` based on title presence
+
+## [1.1.2] – 2025-12-08
 
 - Enhanced modal sizing and scroll behavior
   - Updated CSS viewport units from `vw`/`vh` to `dvw`/`dvh` for more accurate and consistent sizing, especially on mobile devices with dynamic browser UI
