@@ -71,7 +71,7 @@ Call `openModal` with the configuration object.
 | Prop                   | Type                                                      | Description                                                                                                                                                                                | Required |
 | :--------------------- | :-------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------- |
 | `content`              | `React.ReactElement`                                      | The JSX content to render inside the modal body.                                                                                                                                           | Yes      |
-| `title`                | `string`                                                  | The title displayed in the modal header.                                                                                                                                                   | Yes      |
+| `title`                | `string`                                                  | The title displayed in the modal header.                                                                                                                                                   | No       |
 | `size`                 | `'sm' \| 'md' \| 'full' \| 'responsive' \| 'md-f-h'`      | Defines the size of the modal. Defaults to `'md'`.                                                                                                                                         | No       |
 | `headerColor`          | `string`                                                  | CSS class name for the header background (e.g., `'bg-red-500'`). Defaults to `'bg-blue-500 text-white'` tailwind class equivalent.                                                         | No       |
 | `bodyColor`            | `string`                                                  | CSS class name for the modal body background (e.g., `'bg-white'`). Defaults to `'bg-gray-800 text-white'` tailwind class equivalent.                                                       | No       |
@@ -87,10 +87,10 @@ Call `openModal` with the configuration object.
 import ModalBodyContentExample from './component/ModalBodyContentExample';
 const handleOpen = () => {
   openModal({
-    title: 'Confirm Action',
-    size: 'sm',
+    size: 'md',
     triggerRef: triggerRef, // Optional: for animation origin
     content: <ModalBodyContentExample />, // Modal Body Content
+    // Interception of the standard close action to display a confirmation modal
     onBeforeClosing: {
       noticeType: 'warn',
       textContent: 'Are you sure you want to discard unsaved changes?',
@@ -139,11 +139,10 @@ This is useful for forms where unsaved changes might be lost.
 
 ```tsx
 openModal({
-  title: 'Unsaved Changes',
-  content: <p>This form has unsaved data.</p>,
+  content: <ExampleFormComponent />,
   onBeforeClosing: {
     noticeType: 'warn',
-    textContent: 'Are you sure you want to discard your changes?',
+    textContent: 'Are you sure you want to close this form?',
   },
   onClose: () => {
     console.log('Original modal successfully closed after confirmation.');
