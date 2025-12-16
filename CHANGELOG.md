@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.4] – 2025-12-16
+
+- Fix: Add ability to bypass onBeforeClosing confirmation when closing modals programmatically
+  - Fixed an issue where modals with `onBeforeClosing` handlers couldn't be closed programmatically (such as after form submissions). Added `isForceClose` option to `closeModal` to bypass confirmation when needed.
+
 ## [1.1.3] – 2025-12-09
 
 - Enhanced modal flexibility and styling
