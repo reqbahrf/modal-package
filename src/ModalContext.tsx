@@ -2,11 +2,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import useModal from './useModal';
-import type { OpenModalProps } from './types';
+import type { OpenModalProps, CloseModalProps } from './types';
 
 interface ModalContextType {
   openModal: (props: OpenModalProps) => void;
-  closeModal: (id?: string) => void;
+  closeModal: (props?: CloseModalProps) => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);

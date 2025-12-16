@@ -1,11 +1,10 @@
 // src/Modal.tsx
 'use client';
 import React, { useEffect, useRef } from 'react';
-import type { ModalInstance } from './types';
+import type { ModalInstance, CloseModalProps } from './types';
 
-type Props = Omit<ModalInstance, 'content' | 'id' | 'closeId'> & {
-  id: string;
-  onClose: (id?: string) => void;
+type Props = Omit<ModalInstance, 'content' | 'closeId'> & {
+  onClose: (props: CloseModalProps) => void;
   children: React.ReactNode;
   isTopModal: boolean;
   style?: React.CSSProperties;
@@ -53,7 +52,7 @@ const Modal: React.FC<Props> = ({
     if (disableEscapeClose) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose(id);
+        onClose({ id });
       }
     };
     window.addEventListener('keydown', handler);
@@ -62,12 +61,12 @@ const Modal: React.FC<Props> = ({
 
   const handleBackdropClick = () => {
     if (disableBackdropClose) return;
-    onClose(id);
+    onClose({ id });
   };
 
   const handleCloseClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onClose(id);
+    onClose({ id });
   };
 
   const getSizeClass = (s: Props['size']) => {

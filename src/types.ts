@@ -38,3 +38,8 @@ export interface ModalInstance {
   disableBackdropClose?: boolean;
   disableEscapeClose?: boolean;
 }
+
+export interface CloseModalProps {
+  isForceClose?: boolean;
+  id?: string;
+}

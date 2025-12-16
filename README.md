@@ -96,6 +96,7 @@ const handleOpen = () => {
       textContent: 'Are you sure you want to discard unsaved changes?',
     },
     onClose: () => {
+      //Callback to perform after modal is closed
       console.log('Modal closed, cleanup performed.');
     },
   });
@@ -113,15 +114,22 @@ return (
 
 ### 3. Closing the Modal
 
-Use the `closeModal` function provided by `useModalContext` to programmatically close the modal.
-If called without an ID, it closes the topmost modal. If called with an ID, it attempts to close that specific modal in the stack.
+Use the `closeModal` function provided by `useModalContext` to programmatically close the modal. it closes the topmost modal.
 
 ```tsx
-// Inside the children/content:
-<button onClick={closeModal}>Close Top Modal</button>;
+closeModal({
+  isForceClose: false, // Optional: default to false
+  id: 'modal-id', //Note this ID generation is interally handled by the useModal hook.
+});
+```
 
-// To close a specific modal if you have its ID:
-closeModal('my-modal-id-123');
+Note: To by pass the confirmation modal `onBeforeClosing`, pass `isForceClose: true` to the `closeModal` function. example usecase is when you want to close the modal without confirmation(if `onBeforeClosing` is set). such as after to form submission.
+
+```tsx
+const handleFormSubmit = async () => {
+  // perform form submission...
+  closeModal({ isForceClose: true });
+};
 ```
 
 ## Confirmation Modal (onBeforeClosing)

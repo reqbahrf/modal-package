@@ -2,7 +2,12 @@
 import { useCallback, useMemo, useState, useRef } from 'react';
 import Modal from './Modal';
 import ConfirmationModal from './ConfirmationModal';
-import type { OpenModalProps, ModalInstance, NoticeType } from './types';
+import type {
+  OpenModalProps,
+  ModalInstance,
+  NoticeType,
+  CloseModalProps,
+} from './types';
 
 const generateId = (): string => {
   if (typeof crypto !== 'undefined' && (crypto as any).randomUUID) {
@@ -79,14 +84,14 @@ const useModal = () => {
   );
 
   const closeModal = useCallback(
-    (id?: string) => {
+    ({ isForceClose = false, id }: CloseModalProps) => {
       setModalStack((prevStack) => {
         if (prevStack.length === 0) return prevStack;
         const closeId = id || prevStack[prevStack.length - 1].closeId;
         const instanceToClose = prevStack.find((m) => m.closeId === closeId);
         if (!instanceToClose) return prevStack;
 
-        if (instanceToClose.onBeforeClosing) {
+        if (!isForceClose && instanceToClose.onBeforeClosing) {
           const top = prevStack[prevStack.length - 1];
           const confirmationAlreadyTop = top && top.title === 'Confirm Action';
 
@@ -102,9 +107,7 @@ const useModal = () => {
           return prevStack;
         }
 
-        if (instanceToClose.onCloseCallback) {
-          instanceToClose.onCloseCallback();
-        }
+        instanceToClose?.onCloseCallback?.();
 
         return prevStack.filter((m) => m.closeId !== closeId);
       });
